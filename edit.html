@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edit Song</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { 
+            background-color: white; 
+        }
+        
+        h2 { 
+            margin-top: 20px; 
+            font-weight: bold; 
+            color: #1db954; 
+        }
+    </style>
+</head>
+<body>
+
+  <div class="container mt-4">
+    <h2>Edit Song</h2>
+    <form id = "editForm" class="mt-3">
+      <div class="mb-3 ">
+        <label for="title" class="form-label">제목</label>
+        <input type="text" id="title" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="artist" class="form-label">아티스트</label>
+        <input type="text" id="artist" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="album" class="form-label">앨범</label>
+        <input type="text" id="album" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="rate" class="form-label">별점 (1~5)</label>
+        <input type="number" id="rate" class="form-control" min="1" max="5" required>
+      </div>
+      <div class="mb-3">
+        <label for="release" class="form-label">발매일</label>
+        <input type="date" id="release" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-success">💾 저장</button>
+      <button type="button" class="btn btn-secondary" onclick="location.href='index.html'">취소</button>
+    </form>
+  </div>
+
+<script>
+window.onload = function() {
+  const params = new URLSearchParams(window.location.search);
+  const index = parseInt(params.get("index")); 
+  let playlist = JSON.parse(localStorage.getItem("playlist")) || [];
+
+  if (isNaN(index) || !playlist[index]) {
+    alert("잘못된 접근입니다.");
+    location.href = "index.html";
+    return;
+  }
+
+  const song = playlist[index];
+
+  document.getElementById("title").value = song.title;
+  document.getElementById("artist").value = song.artist;
+  document.getElementById("album").value = song.album;
+  document.getElementById("rate").value = song.rate;
+  document.getElementById("release").value = song.release;
+
+  document.getElementById("editForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    let stars = "";
+    for (let i = 0; i < parseInt(document.getElementById("rate").value); i++) {
+      stars += "⭐";
+    }
+
+    playlist[index] = {
+      title: document.getElementById("title").value,
+      artist: document.getElementById("artist").value,
+      album: document.getElementById("album").value,
+      rate: document.getElementById("rate").value,
+      release: document.getElementById("release").value,
+      star: stars
+    };
+
+    localStorage.setItem("playlist", JSON.stringify(playlist));
+
+    alert("수정 완료!");
+    location.href = "view.html?index=" + index; 
+  });
+}
+</script>
+
+</body>
+</html>

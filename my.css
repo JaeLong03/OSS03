@@ -1,0 +1,55 @@
+body {
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive > .table {
+    margin-bottom: 0;
+  }
+}
+
+/*phone size*/
+@media (max-width: 576px) {
+  .navbar-brand {
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .input-group.w-50 {
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  .d-flex.justify-content-between.mb-3 {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .form-control {
+    font-size: 1rem;
+  }
+
+  input[type="radio"] + label {
+    display: block;
+    margin-bottom: 5px;
+  }
+}

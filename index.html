@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Melon Music PlayList</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="my.css" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+    #logo{ 
+      width: 30px; 
+      height: 30px; 
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: #1db954 ;
+    }
+    h2 {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #333;
+    }
+    .table th {
+      background-color: #e9ecef;
+    }
+  </style>
+
+  <script>
+    window.onload = function () {
+
+      const params = new URLSearchParams(window.location.search);
+      const title = params.get("title");
+      const artist = params.get("name");
+      const album = params.get("album");
+      const release = params.get("date");
+      const rate = params.get("rate");
+
+      let playlist = JSON.parse(localStorage.getItem("playlist")) || [];
+
+      let star = ""; 
+      for(let i = 0; i < parseInt(rate); i++){ 
+        star += "⭐";  
+      }
+
+      if (title && artist && album && release && star) {
+        playlist.push({ title, artist, album, rate, release, star});
+        localStorage.setItem("playlist", JSON.stringify(playlist));
+      }
+
+      const tbody = document.querySelector("#musicTable tbody");
+      tbody.innerHTML = ""; 
+
+      playlist.forEach((song, index) => {
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${song.title}</td>
+          <td>${song.artist}</td>
+          <td>${song.album}</td>
+          <td>${song.star}</td>
+          <td>${song.release}</td>
+          <td>
+            <button class="btn btn-sm btn-primary" onclick = "location.href='view.html?index=${index}'" >👁️ view</button>
+          </td>
+        `;
+        tbody.appendChild(newRow);
+      });
+    }
+  </script>
+
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <div class="container">
+      <img id = 'logo' src = data:image/png;base64,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>
+      <h1 class="navbar-brand"> Melon </h1>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <h2>Music PlayList</h2>
+    <div class="d-flex justify-content-between mb-3">
+      <div class="input-group w-50">
+        <input type="text" class="form-control" placeholder="노래 제목 검색">
+        <button class="btn btn-outline-secondary">검색</button>
+      </div>
+      <button class="btn btn-success" onclick = "location.href='add.html'"> 추가</button>
+    </div>
+
+    
+    <table id = "musicTable" class="table table-bordered align-middle text-center">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>제목</th>
+          <th>아티스트</th>
+          <th>앨범</th>
+          <th>별점</th>
+          <th>발매일</th>
+          <th>메뉴</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
