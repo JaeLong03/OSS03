@@ -70,6 +70,19 @@ window.onload = function() {
   document.getElementById("editForm").addEventListener("submit", function(e) {
     e.preventDefault();
 
+
+    const title = document.getElementById("title").value;
+    const artist = document.getElementById("artist").value;
+    const album = document.getElementById("album").value;
+    const rate = parseInt(document.getElementById("rate").value);
+    const release = document.getElementById("release").value;
+
+
+    if (isNaN(rate) || rate < 1 || rate > 5) {
+        alert("별점은 1에서 5 사이의 숫자로 입력해야 합니다.");
+        return;
+    }
+
     let stars = "";
     for (let i = 0; i < parseInt(document.getElementById("rate").value); i++) {
       stars += "⭐";

@@ -69,5 +69,27 @@
     </form>
     </div>
   
+
+    <script>
+      function validateAddForm() {
+        const artist = document.querySelector('input[name="name"]').value;
+        const album = document.querySelector('input[name="album"]').value;
+        const releaseDate = document.querySelector('input[name="date"]').value;
+        const today = new Date().toISOString().split('T')[0];
+
+        if (releaseDate > today) {
+          alert("발매일은 미래의 날짜로 설정할 수 없습니다.");
+          return false;
+        }
+
+        const koreanRegExp = /^[가-힣a-zA-Z0-9\s]+$/;
+        if (!koreanRegExp.test(artist) || !koreanRegExp.test(album)) {
+          alert("아티스트와 앨범 이름에는 특수문자를 사용할 수 없습니다.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
 </body>
 </html>
